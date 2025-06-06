@@ -1,6 +1,6 @@
 # Walkabout Mini-Golf Companion App
 
-Welcome to the Walkabout Mini-Golf companion app. I build this because I love the game and wanted to track my own progress over time, and I am offering it up to other players whow would love to do the same.  
+Welcome to the Walkabout Mini-Golf companion app. I built this because I love the game and wanted to track my own progress over time, and I am offering it up to other players whow would love to do the same.  
   
 The app is currently not ready to use as I have several more features I need to add and cleanups I need to do.  
   
@@ -8,7 +8,7 @@ The app is currently not ready to use as I have several more features I need to 
 - Log each game of golf for every course relased so far for both easy and hard versions ofcourses.  
 - See your overall stats such as best game, worst game, best easy and best hard courses.
 - Most and least played courses.
-- A chard of total played games for each course.  
+- A chart of total played games for each course.  
   
 #### Current Features - Overall User Stats  
 - Sea your average score, standard deviation, and variance for any course and difficulty combo.
@@ -21,7 +21,8 @@ The app is currently not ready to use as I have several more features I need to 
 - Add functionality to include best games on average with a certain putter.
 - Add the ability to see games farthest under par and not just lowest score. 
 - Add ability to see data for each hole on a course, including time series and average strokes data.
-
+- Track which lost balls you have found.
+- Track which fox hunts you've completed and which putters you have.
 
 
     
