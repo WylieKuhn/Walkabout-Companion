@@ -1,2 +1,6 @@
 
 __pycache__/
+
+golfstats.db
+
+tests.py
