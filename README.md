@@ -20,6 +20,7 @@ The app is currently not ready to use as I have several more features I need to 
 - Add code to allow users to select what putter they played a game with.
 - Add functionality to include best games on average with a certain putter.
 - Add the ability to see games farthest under par and not just lowest score. 
+- Add calculation to show what percentage of games you finish under par.
 - Add ability to see data for each hole on a course, including time series and average strokes data.
 - Track which lost balls you have found.
 - Track which fox hunts you've completed and which putters you have.
