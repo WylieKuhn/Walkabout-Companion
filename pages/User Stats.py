@@ -1,6 +1,7 @@
 import sqlite3
 import pandas as pd
 import streamlit as st
+from functions.dataframe_functions import convert_date_to_object
 
 st.set_page_config(layout="wide")
 conn = sqlite3.connect("golfstats.db")
@@ -8,7 +9,7 @@ conn = sqlite3.connect("golfstats.db")
 query = "SELECT * FROM games"
 df = pd.read_sql_query(query, conn)
 
-df["date"] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+df = convert_date_to_object(df)
 
 
 best_game = df.loc[df['total_score'].idxmin()].to_dict()

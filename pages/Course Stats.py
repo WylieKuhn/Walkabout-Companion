@@ -32,7 +32,6 @@ with st.container():
 
         if submit:
             df = load_table(course, difficulty)
-            print("dataframe is", df)
             zScores = compute_z_scores(course, difficulty)
             totalScores = total_scores(course, difficulty)
             

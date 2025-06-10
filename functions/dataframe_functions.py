@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 
-def load_dataframe(database: str)
+def load_dataframe(database: str):
     conn = sqlite3.connect(database)
 
     query = "SELECT * FROM employees"
@@ -14,6 +14,6 @@ def load_dataframe(database: str)
 def convert_date_to_object(dataframe: pd.DataFrame):
     converted_dataframe = dataframe
     print(converted_dataframe)
-    converted_dataframe["date"] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+    converted_dataframe["date"] = pd.to_datetime(converted_dataframe['date'], format='%Y-%m-%d')
     
     return converted_dataframe
