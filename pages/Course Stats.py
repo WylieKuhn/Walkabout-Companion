@@ -29,18 +29,18 @@ with st.container():
         course = st.selectbox(label="Select Course", options=get_courses())
         difficulty = st.selectbox(label="Difficulty", options=["Easy", "Hard"])
         submit = st.form_submit_button(label="See Stats")
-        df = load_table(course, difficulty)
-        
+
+        if submit:
+            df = load_table(course, difficulty)
+            print("dataframe is", df)
+            zScores = compute_z_scores(course, difficulty)
+            totalScores = total_scores(course, difficulty)
+            
+
         if not isinstance(df, pd.DataFrame):
             st.error("No Data To Display")
         
         else:
-
-            if submit:
-                zScores = compute_z_scores(course, difficulty)
-                totalScores = total_scores(course, difficulty)
-                
-
             st.dataframe(df, use_container_width=True)
                     
             col1, col2, col3 = st.columns(3)
