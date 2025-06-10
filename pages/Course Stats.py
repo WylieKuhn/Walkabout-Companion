@@ -38,7 +38,7 @@ with st.container():
             
 
         if not isinstance(df, pd.DataFrame):
-            st.error("No Data To Display")
+            st.warning("No Data To Display, either the returned dataframe is empty or a dataframe has not been loaded by the user")
         
         else:
             st.dataframe(df, use_container_width=True)
@@ -47,20 +47,17 @@ with st.container():
 
             with col1:
                 st.metric(label="Mean", value=round(statistics.mean(totalScores),2))
-                st.text("Chance of beating your best score",)
-
-                st.text(f"{(1-norm.sf(min(zScores)))*100:.2f}%")
-                
+                st.metric(label="Chance of beating your best score", value=f"{(1-norm.sf(min(zScores)))*100:.2f}%")
             with col2:
                 st.metric(label="Standard Deviation", value=round(statistics.pstdev(totalScores),2))
-
-                fig, ax = plt.subplots()
-                ax.hist(zScores, bins=50)
-                st.text("Normal Distrobution")
-                st.pyplot(fig)
-
             with col3:
                 st.metric(label="Variance", value=round(statistics.variance(totalScores),2))
+                st.metric(label="Times Played", value=df.shape[0])
+            
+            fig, ax = plt.subplots()
+            ax.hist(zScores, bins=50)
+            st.text("Normal Distrobution")
+            st.pyplot(fig)
 
             
             plot_score_timeseries(df)
