@@ -1,36 +1,35 @@
 import sqlite3
-import polars as pl
+import pandas as pd
 import streamlit as st
 
 st.set_page_config(layout="wide")
 conn = sqlite3.connect("golfstats.db")
-cur = conn.cursor()
 
 query = "SELECT * FROM games"
-rows = cur.execute(query).fetchall()
-columns = [desc[0] for desc in cur.description]
-df = pl.DataFrame(rows, schema=columns)
+df = pd.read_sql_query(query, conn)
 
-df = df.with_columns([
-    pl.col("date").str.strptime(pl.Date, "%Y-%m-%d"),
-    pl.col("total_score").cast(pl.Int32)
-])
+df["date"] = pd.to_datetime(df['date'], format='%Y-%m-%d')
 
-best_game = df.sort("total_score").slice(0, 1).to_dicts()[0]
-worst_game = df.sort("total_score", descending=True).slice(0, 1).to_dicts()[0]
+
+best_game = df.loc[df['total_score'].idxmin()].to_dict()
+worst_game = df.loc[df['total_score'].idxmax()].to_dict()
 
 averages = (
-    df.group_by(["course", "difficulty"])
-      .agg(pl.col("total_score").mean().alias("avg_score"))
-      .sort("avg_score")
+    df.groupby(["course", "difficulty"])  # Group by the specified columns
+      .agg(avg_score=('total_score', 'mean')) # Calculate the mean of 'total_score' and name it 'avg_score'
+      .reset_index()                      # Convert the grouped columns from index back to regular columns
+      .sort_values(by="avg_score")        # Sort the results by 'avg_score'
 )
 
-best_easy = averages.filter(pl.col("difficulty") == "Easy").slice(0, 1).to_dicts()[0]
-best_hard = averages.filter(pl.col("difficulty") == "Hard").slice(0, 1).to_dicts()[0]
+best_easy = averages[averages['difficulty'].str.lower() == 'easy'].iloc[0].to_dict()
+best_hard = averages[averages['difficulty'].str.lower() == 'hard'].iloc[0].to_dict()
 
-play_counts = df.group_by("course").count().sort("count", descending=True)
-most_played = play_counts.slice(0, 1).to_dicts()[0]
-least_played = play_counts.slice(-1, 1).to_dicts()[0]
+play_counts_pandas = df['course'].value_counts().reset_index()
+play_counts_pandas.columns = ['course', 'count']
+
+
+most_played = play_counts_pandas.iloc[0].to_dict()
+least_played = play_counts_pandas.iloc[-1].to_dict()
 
 st.title("User Golf Stats Summary")
 
@@ -43,6 +42,8 @@ with col1:
     **Score:** {best_game['total_score']}  
     **Date:** {best_game['date']}
     """)
+    
+    st.subheader("Best Game (Strokes Under Par)")
 
     st.subheader("Best Easy Course (Avg Score)")
     st.markdown(f"""
@@ -77,5 +78,7 @@ with col2:
     """)
 
 st.subheader("Course Play Frequency")
-st.bar_chart(play_counts.to_pandas().set_index("course")["count"])
+play_counts = df['course'].value_counts().reset_index()
+
+st.bar_chart(play_counts.set_index("course")["count"])
 

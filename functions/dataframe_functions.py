@@ -7,11 +7,13 @@ def load_dataframe(database: str)
     query = "SELECT * FROM employees"
     df = pd.read_sql_query(query, conn)
 
-    print(df)
-
     conn.close()
 
     return df
 
-def convert_date_to_object(dataframe):
-    dataframe 
+def convert_date_to_object(dataframe: pd.DataFrame):
+    converted_dataframe = dataframe
+    print(converted_dataframe)
+    converted_dataframe["date"] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+    
+    return converted_dataframe
