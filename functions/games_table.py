@@ -4,7 +4,7 @@ import sqlite3
 def load_table(course: str, difficulty: str) -> pd.DataFrame:
     conn = sqlite3.connect("golfstats.db")
 
-    query = """SELECT * FROM games WHERE course = ? AND difficulty = ?"""
+    query = """SELECT * FROM games WHERE name = ? AND difficulty = ?"""
 
     df = pd.read_sql_query(query, conn, params=(course, difficulty))
 

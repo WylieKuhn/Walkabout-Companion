@@ -5,7 +5,7 @@ def total_scores(course: str, difficulty: str) -> list:
     cur = conn.cursor()
 
     data = cur.execute("""SELECT * FROM games
-                        WHERE course = ? AND difficulty = ?""", (course, difficulty,))
+                        WHERE name = ? AND difficulty = ?""", (course, difficulty,))
     
     total_scores_list = []
 

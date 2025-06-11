@@ -1,19 +1,33 @@
 import sqlite3
 import pandas as pd
 
-def load_dataframe(database: str):
+def load_games_dataframe(database: str):
     conn = sqlite3.connect(database)
 
-    query = "SELECT * FROM employees"
+    query = "SELECT * FROM games"
     df = pd.read_sql_query(query, conn)
+    df["date"] = pd.to_datetime(df["date"], format = "%Y-%m-%d").dt.date
+    df["time"] = pd.to_datetime(df["time"], format="%H:%M:%S").dt.time
 
     conn.close()
 
-    return df
+    if len(df) <= 0:
+        return None
+    else:
+        return df
 
-def convert_date_to_object(dataframe: pd.DataFrame):
-    converted_dataframe = dataframe
-    print(converted_dataframe)
-    converted_dataframe["date"] = pd.to_datetime(converted_dataframe['date'], format='%Y-%m-%d')
+def load_courses_dataframe(database: str):
+    conn = sqlite3.connect(database)
+
+    query = "SELECT * FROM courses"
+    df = pd.read_sql_query(query, conn)
     
-    return converted_dataframe
+
+    conn.close()
+
+    if len(df) <= 0:
+        return None
+    else:
+        return df
+
+

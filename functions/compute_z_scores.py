@@ -16,7 +16,7 @@ def compute_z_scores(course: str, difficulty:str) -> list:
     total_scores = []
     z_scores = []
     data = cur.execute("""SELECT * FROM games
-                        WHERE course = ? AND difficulty = ?""", (course,difficulty,))
+                        WHERE name = ? AND difficulty = ?""", (course,difficulty,))
     
     for total in data.fetchall():
         total_scores.append(total[20])
