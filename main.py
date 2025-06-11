@@ -1,6 +1,6 @@
 import streamlit as st
 import sqlite3
-from courses import get_courses
+from functions.courses import get_courses, get_courses_putter
 
 conn = sqlite3.connect("golfstats.db")
 cur = conn.cursor()
@@ -11,9 +11,9 @@ with st.container():
     with st.form(key="scores"):
         course = st.selectbox(label="Course", options=get_courses(), key="course")
         difficulty = st.selectbox(label="Difficulty", options=["Easy", "Hard"], key="difficulty")
+        putter = st.selectbox(label="Putter", options=get_courses_putter())
 
         col1, col2, col3, col4, col5, col6 = st.columns(6)
-
         hole_scores = {}
 
         with col1:
@@ -53,7 +53,7 @@ with st.container():
             for hole, score in hole_scores.items():
                 doubleCheckTotalScore += score
             
-            
+            # I AM AWARE IT'S NOT LOGGING ANYTHING YET DON'T @ ME LMAO
             if doubleCheckTotalScore == totalStrokes:
                 print("Course:", course)
                 print("Scores:", hole_scores)

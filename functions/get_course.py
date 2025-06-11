@@ -29,3 +29,4 @@ def get_courses() -> list:
 
     #Returns the list
     return list_of_course_names
+

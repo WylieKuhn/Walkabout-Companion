@@ -45,6 +45,23 @@ def get_courses():
     
     for course in course_names.fetchall():
         list_of_course_names.append(course[0])
+
+    list_of_course_names.sort()
+    
+    return list_of_course_names
+
+def get_courses_putter():
+    conn = sqlite3.connect("golfstats.db")
+    cur = conn.cursor()
+    course_names = cur.execute("""SELECT DISTINCT name FROM courses""")
+    list_of_course_names = []
+    
+    for course in course_names.fetchall():
+        list_of_course_names.append(course[0])
+
+    list_of_course_names.append("Standard")
+    list_of_course_names.sort()
+
     return list_of_course_names
 
 
