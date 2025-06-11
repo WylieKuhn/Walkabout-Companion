@@ -1,8 +1,5 @@
 import sqlite3
 from courses import courses
-from random import randint
-import random
-import rich
 
 print("Welcome to the Simple Golf Tracking App")
 print("")
