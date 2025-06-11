@@ -10,7 +10,7 @@ The app is currently not ready to use as I have several more features I need to 
 - Most and least played courses.
 - A chart of total played games for each course.   
 - See your average score, standard deviation, and variance for any course and difficulty combo.
-- See a chard of your normal distrobution of scores for each course and difficulty.
+- See a chart of your normal distrobution of scores for each course and difficulty.
 - View a time series of your scores for a course. 
 
 ### Screenshots  
