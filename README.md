@@ -14,8 +14,7 @@ The app is currently not ready to use as I have several more features I need to 
 - View a time series of your scores for a course. 
 
 ### Screenshots  
-The Follawing images were created using prepopulated_fake data from my test database. Hopefully your real data will show you improving :D  
-  
+The Following images were created using prepopulated_fake data from my test database. Hopefully your real data will show you improving :D  
 ![](pictures/log_game.JPG)
 ![](pictures/course_stats_1.jpg)
 ![](pictures/course_stats_2.jpg)
