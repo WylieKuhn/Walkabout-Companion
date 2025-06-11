@@ -1,5 +1,5 @@
 import sqlite3
-from courses import courses
+from functions.courses import courses
 
 print("Welcome to the Simple Golf Tracking App")
 print("")

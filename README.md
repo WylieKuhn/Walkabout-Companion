@@ -13,7 +13,17 @@ The app is currently not ready to use as I have several more features I need to 
 #### Current Features - Overall User Stats  
 - Sea your average score, standard deviation, and variance for any course and difficulty combo.
 - See a chard of your normal distrobution of scores for each course and difficulty.
-- View a time series of your scores for a course.  
+- View a time series of your scores for a course. 
+
+### Screenshots  
+The Follawing images were created using prepopulated_fake data from my test database. Hopefully your real data will show you improving :D  
+  
+![](pictures/log_game.JPG)
+![](pictures/course_stats_1.jpg)
+![](pictures/course_stats_2.jpg)
+![](pictures/course_stats_3.jpg)
+![](pictures/user_stats_1.jpg)
+![](pictures/user_stats_2.jpg)
   
 ### Things To Do
 - ~~Streamlit does not cache polars dataframes, so while I would love to use polars over pandas I will have to use pandas for the time being. I did not realize this until I had written a bunch of the code to use polars so I will simply replace it with pandas code. This is why there is some code that converts polars dataframes to pandas for use in charts etc for now.~~
