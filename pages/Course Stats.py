@@ -10,6 +10,7 @@ from functions.get_course import get_courses
 from functions.total_scores import total_scores
 from functions.games_table import load_table
 from functions.create_performance_chart import plot_score_timeseries, plot_score_timeseries_time
+from functions.par_averages import percent_under_par_course
 
 
 st.set_page_config(layout="wide")
@@ -50,16 +51,13 @@ with st.container():
             with col2:
                 st.metric(label="Standard Deviation", value=round(statistics.pstdev(totalScores),2))
 
-                fig, ax = plt.subplots()
-                ax.hist(zScores, bins=50)
-                st.text("Normal Distrobution")
-                st.pyplot(fig)
+                st.metric(label="Percent Of Games Under Par", value=percent_under_par_course(course, difficulty))
             with col3:
                 st.metric(label="Variance", value=round(statistics.variance(totalScores),2))
                 st.metric(label="Times Played", value=df.shape[0])
             
             
-
+            fig, ax = plt.subplots()
             
             plot_score_timeseries(df)
             plot_score_timeseries_time(df)

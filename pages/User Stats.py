@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 from functions.dataframe_functions import load_courses_dataframe, load_games_dataframe
+from functions.par_averages import percent_easy_under_par, percent_hard_under_par
 
 st.set_page_config(layout="wide")
 db = "golfstats.db"
@@ -74,6 +75,9 @@ with col1:
     **Avg Score:** {round(best_easy['avg_score'], 2)}
     """)
 
+    st.subheader("Easy Games Under Par")
+    st.markdown(f"{percent_easy_under_par()}%")
+
     st.subheader("Most Played Course")
     st.markdown(f"""
     **Course:** {most_played['name']}  
@@ -109,6 +113,9 @@ with col2:
     **Course:** {best_hard['name']}  
     **Avg Score:** {round(best_hard['avg_score'], 2)}
     """)
+
+    st.subheader("Hard Games Under Par")
+    st.markdown(f"{percent_hard_under_par()}%")
 
     st.subheader("Least Played Course")
     st.markdown(f"""
