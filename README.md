@@ -14,14 +14,8 @@ The app is currently not ready to use as I have several more features I need to 
 - View a time series of your scores for a course. 
 
 ### Screenshots  
-The Following images were created using prepopulated_fake data from my test database. Hopefully your real data will show you improving!  
-![](pictures/log_game.JPG)
-![](pictures/course_stats_1.jpg)
-![](pictures/course_stats_2.jpg)
-![](pictures/course_stats_3.jpg)
-![](pictures/user_stats_1.jpg)
-![](pictures/user_stats_2.jpg)
-  
+Please see the [pictures folder](https://github.com/WylieKuhn/Walkabout-Companion/tree/main/pictures).
+
 ### Things To Do
 - ~~Streamlit does not cache polars dataframes, so while I would love to use polars over pandas I will have to use pandas for the time being. I did not realize this until I had written a bunch of the code to use polars so I will simply replace it with pandas code. This is why there is some code that converts polars dataframes to pandas for use in charts etc for now.~~
 - ~~Add the ability to see games farthest under par and not just lowest score.~~
