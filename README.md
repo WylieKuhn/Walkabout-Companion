@@ -26,7 +26,7 @@ The Follawing images were created using prepopulated_fake data from my test data
 ### Things To Do
 - ~~Streamlit does not cache polars dataframes, so while I would love to use polars over pandas I will have to use pandas for the time being. I did not realize this until I had written a bunch of the code to use polars so I will simply replace it with pandas code. This is why there is some code that converts polars dataframes to pandas for use in charts etc for now.~~
 - ~~Add the ability to see games farthest under par and not just lowest score.~~
-- Add code to allow users to select what putter they played a game with.
+- ~~Add code to allow users to select what putter they played a game with.~~
 - Add functionality to include best games on average with a certain putter.
 - Add calculation to show what percentage of games you finish under par.
 - Add ability to see data for each hole on a course, including time series and average strokes data.
