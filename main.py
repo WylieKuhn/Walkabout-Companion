@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 from functions.courses import get_courses, get_courses_putter
+from models.database_models import Game, Base
 
 conn = sqlite3.connect("golfstats.db")
 cur = conn.cursor()

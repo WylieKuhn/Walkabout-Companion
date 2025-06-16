@@ -1,21 +1,30 @@
 import pandas as pd
-import sqlite3
+from sqlalchemy import create_engine, select
+from sqlalchemy.orm import sessionmaker
 
-def load_table(course: str, difficulty: str) -> pd.DataFrame:
-    conn = sqlite3.connect("golfstats.db")
+from models.database_models import Game
 
-    query = """SELECT * FROM games WHERE name = ? AND difficulty = ?"""
+def load_table(course: str, difficulty: str) -> pd.DataFrame | None:
+    engine = create_engine("sqlite:///golfstats2.db")
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-    df = pd.read_sql_query(query, conn, params=(course, difficulty))
+    query = select(Game).where(
+        Game.course_name == course,
+        Game.difficulty == difficulty
+    )
+    print(query)
 
-    conn.close()
-    
-    if len(df) <= 0:
+
+    with engine.connect() as conn:
+        df = pd.read_sql(query, conn, params={"course": course, "difficulty": difficulty})
+        print(df)
+
+    if df.empty:
         return None
-        
     else:
-        
-        df["date"] = pd.to_datetime(df["date"], format = "%Y-%m-%d")
-
+        df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
         return df
+
+
 

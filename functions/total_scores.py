@@ -1,17 +1,26 @@
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models.database_models import Game  # or Games
 
 def total_scores(course: str, difficulty: str) -> list:
-    conn = sqlite3.connect("golfstats.db")
-    cur = conn.cursor()
+    engine = create_engine("sqlite:///golfstats2.db")
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-    data = cur.execute("""SELECT * FROM games
-                        WHERE name = ? AND difficulty = ?""", (course, difficulty,))
-    
-    total_scores_list = []
+    try:
+        # Query total_score for matching games
+        results = (
+            session.query(Game.total_score)
+            .filter(Game.course_name == course, Game.difficulty == difficulty)
+            .all()
+        )
 
-    for total in data.fetchall():
-        total_scores_list.append(total[20])
+        # Extract values from result tuples
+        total_scores_list = [row[0] for row in results]
+        session.close()
+        return total_scores_list
 
-    return total_scores_list
+    finally:
+        session.close()
 
 

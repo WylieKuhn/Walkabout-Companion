@@ -1,5 +1,7 @@
-import sqlite3
-from functions.courses import courses
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models.database_models import Course, Game, Base  # <-- Import, don't redefine
+import json
 
 print("Welcome to the Simple Golf Tracking App")
 print("")
@@ -9,20 +11,24 @@ print("After this window closes run 'launch.bat' to run the app \n")
 
 WMCInstall = str(input("Press Enter To Run Setup"))
 
+DATABASE_FILE = "golfstats2.db"
+engine = create_engine(f"sqlite:///{DATABASE_FILE}", echo=False)
+Session = sessionmaker(bind=engine)
+Base.metadata.create_all(engine)
 
 
-conn = sqlite3.connect("golfstats.db")
-cur = conn.cursor()
-cur.execute(f"""CREATE TABLE courses(name, easy, hard)""")
-conn.commit()
+with open("functions/courses.json", "r") as file:
+    courses_data = json.load(file)
 
+try:
+    with Session() as session:
+        for course_dict in courses_data:
+            # Rename 'name' to 'course_name' to match the model
+            course_dict["course_name"] = course_dict.pop("name")
 
-for course in courses:
-    cur.execute("""INSERT INTO courses(name, easy, hard) VALUES (?, ?, ?)""", (course["name"], course["easy_par"], course["hard_par"]))
-    conn.commit()
-
-cur.execute("""CREATE TABLE games (name, difficulty, hole_1, hole_2,hole_3,hole_4,hole_5,hole_6,hole_7,hole_8,hole_9,hole_10,hole_11,
-            hole_12,hole_13,hole_14,hole_15,hole_16,hole_17,hole_18, total_score, putter, date, time)""")
-
-conn.commit()
-
+            course = Course(**course_dict)
+            session.add(course)
+        session.commit()
+except Exception as e:
+    print("Error creating courses:", e)
+    session.rollback()

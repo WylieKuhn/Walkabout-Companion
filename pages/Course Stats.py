@@ -11,12 +11,12 @@ from functions.total_scores import total_scores
 from functions.games_table import load_table
 from functions.create_performance_chart import plot_score_timeseries, plot_score_timeseries_time
 from functions.par_averages import percent_under_par_course
+from sqlalchemy import create_engine
 
-
+engine = create_engine("sqlite:///golfstats2.db")
 st.set_page_config(layout="wide")
 
-conn = sqlite3.connect("golfstats.db")
-cur = conn.cursor()
+
 totalScores = [0,0]
 zScores = [0,0]
 
@@ -32,9 +32,10 @@ with st.container():
         submit = st.form_submit_button(label="See Stats")
 
         if submit:
-            df = load_table(course, difficulty)
-            zScores = compute_z_scores(course, difficulty)
-            totalScores = total_scores(course, difficulty)
+            df = load_table(course, difficulty.lower())
+            print(df)
+            zScores = compute_z_scores(course, difficulty.lower())
+            totalScores = total_scores(course, difficulty.lower())
             
 
         if not isinstance(df, pd.DataFrame):
