@@ -1,30 +1,29 @@
 import pandas as pd
-from sqlalchemy import create_engine, select
-from sqlalchemy.orm import sessionmaker
-
-from models.database_models import Game
+import sqlite3
+import pandas as pd
 
 def load_table(course: str, difficulty: str) -> pd.DataFrame | None:
-    engine = create_engine("sqlite:///golfstats2.db")
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    conn = sqlite3.Connection("golfstats2.db")
+    df = pd.read_sql_query("SELECT * FROM games WHERE course_name = :course AND difficulty = :difficulty", conn, params={"course": course, "difficulty": difficulty})
 
-    query = select(Game).where(
-        Game.course_name == course,
-        Game.difficulty == difficulty
-    )
-    print(query)
+    df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    df["time"] = pd.to_datetime(df["time"], format="%H:%M", errors="coerce").dt.time
+
+    return df
+
+def load_table_hole(course: str, difficulty: str, hole: int) -> pd.DataFrame | None:
+    conn = sqlite3.Connection("golfstats2.db")
+    df = pd.read_sql_query(f"""SELECT course_name, difficulty, date, time, putter, hole_{hole} 
+                           FROM games WHERE course_name = :course AND difficulty = :difficulty""", 
+                           conn, params={"course": course, "difficulty": difficulty})
+
+    df["date"] = pd.to_datetime(df["date"], errors="coerce").dt.date
+    df["time"] = pd.to_datetime(df["time"], format="%H:%M", errors="coerce").dt.time
+
+    return df
 
 
-    with engine.connect() as conn:
-        df = pd.read_sql(query, conn, params={"course": course, "difficulty": difficulty})
-        print(df)
 
-    if df.empty:
-        return None
-    else:
-        df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d")
-        return df
 
 
 

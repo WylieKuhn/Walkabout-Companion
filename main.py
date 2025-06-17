@@ -1,10 +1,13 @@
+import datetime
 import streamlit as st
-import sqlite3
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from functions.courses import get_courses, get_courses_putter
-from models.database_models import Game, Base
+from models.database_models import Game
 
-conn = sqlite3.connect("golfstats.db")
-cur = conn.cursor()
+engine = create_engine("sqlite:///golfstats2.db")
+Session = sessionmaker(bind=engine)
+session = Session()
 
 with st.container():
     st.markdown("<h1 style='text-align: center;'>Input Golf Game</h1>", unsafe_allow_html=True)
@@ -54,12 +57,25 @@ with st.container():
             for hole, score in hole_scores.items():
                 doubleCheckTotalScore += score
             
-            # I AM AWARE IT'S NOT LOGGING ANYTHING YET DON'T @ ME LMAO
             if doubleCheckTotalScore == totalStrokes:
-                print("Course:", course)
-                print("Scores:", hole_scores)
-                print("Total Strokes:", totalStrokes)
+                game_data = {
+                    "player_id": 1,
+                    "course_name": course,
+                    "difficulty": difficulty.lower(),
+                    "putter": putter,
+                    "total_score": totalStrokes,
+                    "date": date_played,
+                    "time": datetime.datetime.now().strftime("%H:%M"),
+                }
+
+                for i in range(1, 19):
+                    game_data[f"hole_{i}"] = hole_scores[f"Hole {i}"]
+
+                new_game = Game(**game_data)
+                session.add(new_game)
+                session.commit()
                 st.success("Game logged successfully!")
+
             elif doubleCheckTotalScore != totalStrokes:
                 if doubleCheckTotalScore > totalStrokes:
                     st.error("You total strokes per hole is greater than your inputted total score. Please check your inputs to ensure accuracy")

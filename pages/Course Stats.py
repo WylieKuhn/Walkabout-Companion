@@ -33,7 +33,6 @@ with st.container():
 
         if submit:
             df = load_table(course, difficulty.lower())
-            print(df)
             zScores = compute_z_scores(course, difficulty.lower())
             totalScores = total_scores(course, difficulty.lower())
             
@@ -57,8 +56,7 @@ with st.container():
                 st.metric(label="Variance", value=round(statistics.variance(totalScores),2))
                 st.metric(label="Times Played", value=df.shape[0])
             
-            
-            fig, ax = plt.subplots()
+        
             
             plot_score_timeseries(df)
             plot_score_timeseries_time(df)
