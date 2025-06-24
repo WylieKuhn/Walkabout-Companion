@@ -9,7 +9,7 @@ from functions.compute_z_scores import compute_z_scores
 from functions.get_course import get_courses
 from functions.total_scores import total_scores
 from functions.games_table import load_table
-from functions.create_performance_chart import plot_score_timeseries, plot_score_timeseries_time
+from functions.create_performance_chart import plot_score_timeseries, plot_score_timeseries_time, distrobution_chart
 from functions.par_averages import percent_under_par_course
 from sqlalchemy import create_engine
 
@@ -48,6 +48,7 @@ with st.container():
             with col1:
                 st.metric(label="Mean", value=round(statistics.mean(totalScores),2))
                 st.metric(label="Chance of beating your best score", value=f"{(1-norm.sf(min(zScores)))*100:.2f}%")
+                distrobution_chart(df)
             with col2:
                 st.metric(label="Standard Deviation", value=round(statistics.pstdev(totalScores),2))
 

@@ -57,7 +57,7 @@ with st.container():
             for hole, score in hole_scores.items():
                 doubleCheckTotalScore += score
             
-            if doubleCheckTotalScore == totalStrokes:
+            if doubleCheckTotalScore == totalStrokes and doubleCheckTotalScore >= 18:
                 game_data = {
                     "player_id": 1,
                     "course_name": course,

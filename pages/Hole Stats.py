@@ -12,8 +12,6 @@ from sqlalchemy import create_engine
 engine = create_engine("sqlite:///golfstats2.db")
 st.set_page_config(layout="wide")
 
-
-totalScores = [0,0]
 zScores = [0,0]
 
 average = st.empty()
@@ -30,7 +28,6 @@ with st.container():
         if submit:
             df = load_table_hole(course, difficulty.lower(), hole)
             zScores = compute_z_scores(course, difficulty.lower())
-            totalScores = df[f"hole_{hole}"].mean()
             st_dev = df[f"hole_{hole}"].std()
             variance = df[f"hole_{hole}"].var()
 
@@ -43,7 +40,7 @@ with st.container():
                 col1, col2, col3 = st.columns(3)
 
                 with col1:
-                    st.metric(label="Mean", value=round(totalScores,2))
+                    st.metric(label="Mean", value=round(df[f"hole_{hole}"].mean(),2))
                     st.metric(label="Chance of beating your best score", value=f"{(1-norm.sf(min(zScores)))*100:.2f}%")
                 with col2:
                     st.metric(label="Standard Deviation", value=round(st_dev,2))

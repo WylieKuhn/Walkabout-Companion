@@ -44,3 +44,15 @@ def plot_score_timeseries_time_hole(df: pd.DataFrame, hole_number: int):
 
     st.subheader(f"Score by Time of Day - Hole {hole_number}")
     st.scatter_chart(data=course_df, x="time", y="score")
+
+def distrobution_chart(df: pd.DataFrame):
+    score_counts = df["total_score"].value_counts().sort_index()
+
+    plot_df = pd.DataFrame({
+        "total_score": score_counts.index,
+        "count": score_counts.values
+    }).set_index("total_score")
+
+    st.subheader("Distribution of Total Scores")
+    st.bar_chart(plot_df["count"])
+
